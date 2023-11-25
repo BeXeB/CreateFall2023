@@ -2151,28 +2151,34 @@ MonoBehaviour:
   audioSource: {fileID: 215475047}
   musicSource: {fileID: 383615536}
   audioClipData:
-  - clip: {fileID: 0}
+  - name: 
+    clip: {fileID: 0}
     volume: 1
     pitch: 0.5
     loop: 0
-  - clip: {fileID: 0}
+  - name: 
+    clip: {fileID: 0}
     volume: 1
     pitch: 0.5
     loop: 0
-  - clip: {fileID: 0}
+  - name: 
+    clip: {fileID: 0}
     volume: 1
     pitch: 0.5
     loop: 0
-  - clip: {fileID: 0}
+  - name: 
+    clip: {fileID: 0}
     volume: 1
     pitch: 0.5
     loop: 0
   musicClipData:
-  - clip: {fileID: 0}
+  - name: Menu
+    clip: {fileID: 8300000, guid: d73da1d5ad77f0a43901a9fd6a324dfd, type: 3}
     volume: 1
     pitch: 0.5
     loop: 1
-  - clip: {fileID: 0}
+  - name: Game
+    clip: {fileID: 8300000, guid: 86611180abd41da4684463d437096afa, type: 3}
     volume: 1
     pitch: 0.5
     loop: 1

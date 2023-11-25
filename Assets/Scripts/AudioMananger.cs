@@ -31,15 +31,13 @@ public class AudioMananger : MonoBehaviour
     {
         foreach (var clip in audioClipData)
         {
-            if (clip.clip.name == clipName)
-            {
-                audioSource.clip = clip.clip;
-                audioSource.volume = clip.volume;
-                audioSource.pitch = clip.pitch;
-                audioSource.loop = clip.loop;
-                audioSource.Play();
-                return;
-            }
+            if (clip.name != clipName) continue;
+            audioSource.clip = clip.clip;
+            audioSource.volume = clip.volume;
+            audioSource.pitch = clip.pitch;
+            audioSource.loop = clip.loop;
+            audioSource.Play();
+            return;
         }
         Debug.LogError($"Audio clip {clipName} not found");
     }
@@ -53,7 +51,7 @@ public class AudioMananger : MonoBehaviour
     {
         foreach (var clip in musicClipData)
         {
-            if (clip.clip.name != clipName) continue;
+            if (clip.name != clipName) continue;
             musicSource.Stop();
             musicSource.clip = clip.clip;
             musicSource.volume = clip.volume;
@@ -69,6 +67,7 @@ public class AudioMananger : MonoBehaviour
 [Serializable]
 public struct AudioClipData
 {
+    public string name;
     public AudioClip clip;
     public float volume;
     public float pitch;
