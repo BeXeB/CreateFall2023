@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float player1TimeIncrement = 2f;
     [SerializeField] private float player2Time = 3*60;
     [SerializeField] private float player2TimeIncrement = 2f;
+    [SerializeField] private List<Sprite> tileSprites;
     
     private float player1TimeRemaining;
     private float player2TimeRemaining;
@@ -344,6 +346,9 @@ public class GameManager : MonoBehaviour
                 tileScript.row = row;
                 tileScript.column = col;
                 board[row, col] = tileScript;
+                
+                var spriteRenderer = tile.GetComponent<SpriteRenderer>();
+                spriteRenderer.sprite = tileSprites[UnityEngine.Random.Range(0, tileSprites.Count)];
             }
         }
 

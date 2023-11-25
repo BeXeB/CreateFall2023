@@ -1881,7 +1881,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 43e9781ee3bdf0d408456401960cbc90, type: 3}
-  m_Color: {r: 0.7924528, g: 0.7102001, b: 0.20558919, a: 1}
+  m_Color: {r: 0.7924528, g: 0.7102001, b: 0.20558919, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -2004,7 +2004,7 @@ MonoBehaviour:
   highlightTileColor: {r: 0.3962264, g: 0.3962264, b: 0.3962264, a: 0.6666667}
   highlightAttackColor: {r: 0.7264151, g: 0, b: 0, a: 0.6666667}
   defaultHighlightColor: {r: 1, g: 1, b: 1, a: 0}
-  controlPointColor: {r: 0.053194046, g: 1, b: 0, a: 0}
+  controlPointColor: {r: 1, g: 0.8784314, b: 0.54509807, a: 1}
   highlightReloadColor: {r: 1, g: 0.51687396, b: 0, a: 0.6666667}
   pieceBaseStat:
     move: 1
@@ -2050,6 +2050,10 @@ MonoBehaviour:
   player1TimeIncrement: 2
   player2Time: 180
   player2TimeIncrement: 2
+  tileSprites:
+  - {fileID: 21300000, guid: b9ac08b54861fdc47b3ae0d5a43aea9e, type: 3}
+  - {fileID: 21300000, guid: bcf4ba0a2a666c141b55e0ce1271213d, type: 3}
+  - {fileID: 21300000, guid: ad5e9342c4c2b054a8e5049a0fe5e8ad, type: 3}
 --- !u!4 &2086055710
 Transform:
   m_ObjectHideFlags: 0
@@ -2142,7 +2146,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 43e9781ee3bdf0d408456401960cbc90, type: 3}
-  m_Color: {r: 0.7921569, g: 0.70980394, b: 0.20392157, a: 1}
+  m_Color: {r: 0.7921569, g: 0.70980394, b: 0.20392157, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
