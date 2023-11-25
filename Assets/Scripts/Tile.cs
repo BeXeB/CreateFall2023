@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    public Piece Piece { get; private set; }
-    
-    
+    public Piece piece { get; set; }
+    public int row { get; set; }
+    public int column { get; set; }
 }

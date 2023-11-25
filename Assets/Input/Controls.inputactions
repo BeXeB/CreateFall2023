@@ -1,0 +1,34 @@
+{
+    "name": "Controls",
+    "maps": [
+        {
+            "name": "Chess",
+            "id": "1c527b33-0512-46a9-ba1b-06d4f3288865",
+            "actions": [
+                {
+                    "name": "Click",
+                    "type": "Button",
+                    "id": "8e207859-d3d5-4129-b850-6004cfda56d7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "21e882cc-f64e-475d-9de0-1f64550cf3de",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
