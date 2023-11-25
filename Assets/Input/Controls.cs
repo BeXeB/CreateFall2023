@@ -28,9 +28,18 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             ""id"": ""1c527b33-0512-46a9-ba1b-06d4f3288865"",
             ""actions"": [
                 {
-                    ""name"": ""Click"",
+                    ""name"": ""LClick"",
                     ""type"": ""Button"",
                     ""id"": ""8e207859-d3d5-4129-b850-6004cfda56d7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RClick"",
+                    ""type"": ""Button"",
+                    ""id"": ""d13a7201-b51e-42c2-ad89-9f61a4f0f909"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -45,7 +54,18 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Click"",
+                    ""action"": ""LClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c166d0fe-f78a-4ab0-b13f-62cd93b9bfb1"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -56,7 +76,8 @@ public partial class @Controls: IInputActionCollection2, IDisposable
 }");
         // Chess
         m_Chess = asset.FindActionMap("Chess", throwIfNotFound: true);
-        m_Chess_Click = m_Chess.FindAction("Click", throwIfNotFound: true);
+        m_Chess_LClick = m_Chess.FindAction("LClick", throwIfNotFound: true);
+        m_Chess_RClick = m_Chess.FindAction("RClick", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -118,12 +139,14 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     // Chess
     private readonly InputActionMap m_Chess;
     private List<IChessActions> m_ChessActionsCallbackInterfaces = new List<IChessActions>();
-    private readonly InputAction m_Chess_Click;
+    private readonly InputAction m_Chess_LClick;
+    private readonly InputAction m_Chess_RClick;
     public struct ChessActions
     {
         private @Controls m_Wrapper;
         public ChessActions(@Controls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Click => m_Wrapper.m_Chess_Click;
+        public InputAction @LClick => m_Wrapper.m_Chess_LClick;
+        public InputAction @RClick => m_Wrapper.m_Chess_RClick;
         public InputActionMap Get() { return m_Wrapper.m_Chess; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -133,16 +156,22 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_ChessActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_ChessActionsCallbackInterfaces.Add(instance);
-            @Click.started += instance.OnClick;
-            @Click.performed += instance.OnClick;
-            @Click.canceled += instance.OnClick;
+            @LClick.started += instance.OnLClick;
+            @LClick.performed += instance.OnLClick;
+            @LClick.canceled += instance.OnLClick;
+            @RClick.started += instance.OnRClick;
+            @RClick.performed += instance.OnRClick;
+            @RClick.canceled += instance.OnRClick;
         }
 
         private void UnregisterCallbacks(IChessActions instance)
         {
-            @Click.started -= instance.OnClick;
-            @Click.performed -= instance.OnClick;
-            @Click.canceled -= instance.OnClick;
+            @LClick.started -= instance.OnLClick;
+            @LClick.performed -= instance.OnLClick;
+            @LClick.canceled -= instance.OnLClick;
+            @RClick.started -= instance.OnRClick;
+            @RClick.performed -= instance.OnRClick;
+            @RClick.canceled -= instance.OnRClick;
         }
 
         public void RemoveCallbacks(IChessActions instance)
@@ -162,6 +191,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     public ChessActions @Chess => new ChessActions(this);
     public interface IChessActions
     {
-        void OnClick(InputAction.CallbackContext context);
+        void OnLClick(InputAction.CallbackContext context);
+        void OnRClick(InputAction.CallbackContext context);
     }
 }

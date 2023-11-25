@@ -1,11 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,11 +15,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Color defaultHighlightColor;
     [SerializeField] private Piece[] pieces;
     
-    private bool whiteTurn = true;
-    private int whiteMove = 0;
-    private int blackMove = 0;
     private Camera camera;
     private Controls controls;
+    
+    private bool whiteTurn = true;
+    private int whiteMove;
+    private int blackMove;
+    private Tile selectedTile;
     
     private Tile[,] board;
     
@@ -38,15 +36,28 @@ public class GameManager : MonoBehaviour
         DrawBoard();
     }
     
+    public Color GetHighlightColor(TileState state)
+    {
+        return state switch
+        {
+            TileState.Default => defaultHighlightColor,
+            TileState.Highlighted => highlightTileColor,
+            TileState.Attack => highlightAttackColor,
+            _ => throw new ArgumentOutOfRangeException(nameof(state), state, null)
+        };
+    }
+    
     private void OnEnable()
     {
         controls.Enable();
-        controls.Chess.Click.performed += CheckIfMouseIsOverTile;
+        controls.Chess.LClick.performed += CheckIfMouseIsOverTile;
+        controls.Chess.RClick.performed += HandleClearInput;
     }
     
     private void OnDisable()
     {
-        controls.Chess.Click.performed -= CheckIfMouseIsOverTile;
+        controls.Chess.LClick.performed -= CheckIfMouseIsOverTile;
+        controls.Chess.RClick.performed -= HandleClearInput;
         controls.Disable();
     }
 
@@ -59,31 +70,69 @@ public class GameManager : MonoBehaviour
         var tile = hit.collider.GetComponent<Tile>();
         if (tile == null) return;
         
-        SelectTile(tile);
+        if (selectedTile == null)
+        {
+            SelectTile(tile);
+            return;
+        }
+        
+        switch(tile.state)
+        {
+            case TileState.Default: 
+                ClearSelection(); 
+                break;
+            case TileState.Highlighted: 
+                MovePiece(tile); 
+                MoveMade();
+                break;
+            case TileState.Attack:
+                AttackPiece(tile);
+                MoveMade();
+                break;
+            default: 
+                throw new ArgumentOutOfRangeException();
+        }
     }
-    
+
+    private void MoveMade()
+    {
+        if (whiteTurn) whiteMove++;
+        else blackMove++;
+
+        switch (whiteTurn)
+        {
+            case true when whiteMove % 2 == 1:
+            case false when blackMove % 2 == 0:
+                foreach (var tileScript in board)
+                {   
+                    if (tileScript.piece == null) continue;
+                    tileScript.piece.movedThisTurn = false;
+                }
+
+                whiteTurn = !whiteTurn;
+                break;
+        }
+    }
+
     private void SelectTile(Tile tile)
     {
+        ClearSelection();
+        
         if (tile.piece == null) return;
         
         var piece = tile.piece;
         
         if (piece.isWhite != whiteTurn) return;
         
+        if (piece.movedThisTurn) return;
+        
+        selectedTile = tile;
         HighlightMoves(piece, tile);
+        // if (piece.attacked) return; show reload action
     }
 
     private void HighlightMoves(Piece piece, Tile tile)
     {
-        for (var row = 0; row < rows; row++)
-        {
-            for (var col = 0; col < columns; col++)
-            { 
-                var tileScript = board[row, col];
-                tileScript.GetComponentsInChildren<SpriteRenderer>()[1].color = defaultHighlightColor;
-            }
-        }
-        
         var (x, y) = (tile.row, tile.column);
         var moves = piece.move;
         var attacks = piece.attack;
@@ -99,15 +148,63 @@ public class GameManager : MonoBehaviour
                 
                 if (manhattanDistance <= moves)
                 {
-                    tileScript.GetComponentsInChildren<SpriteRenderer>()[1].color = highlightTileColor;
+                    tileScript.SetState(TileState.Highlighted);
                     continue;
                 }
-                if (manhattanDistance <= attacks)
+                if (!piece.attacked && manhattanDistance <= attacks)
                 {
-                    tileScript.GetComponentsInChildren<SpriteRenderer>()[1].color = highlightAttackColor;
+                    tileScript.SetState(TileState.Attack);
                 }
             }
         }
+    }
+
+    private void MovePiece(Tile tileToMoveTo)
+    {
+        var piece = selectedTile.piece;
+        
+        selectedTile.ClearPiece();
+        tileToMoveTo.ClearPiece();
+        tileToMoveTo.SetPiece(piece, piece.isWhite);
+        piece.movedThisTurn = true;
+        ClearSelection();
+    }
+    
+    private void AttackPiece(Tile tileToAttack)
+    {
+        var piece = selectedTile.piece;
+        piece.attacked = true;
+        var attackedPiece = tileToAttack.piece;
+        if (attackedPiece == null) return;
+        switch (attackedPiece.type)
+        {
+            case PieceType.Barrel:
+                tileToAttack.SetPiece((Piece)pieces.First(p => p.type == PieceType.Pleb).Clone(), attackedPiece.isWhite);
+                break;
+            default:
+                tileToAttack.ClearPiece();
+                break;
+        }
+        piece.movedThisTurn = true;
+        ClearSelection();
+    }
+
+    private void HandleClearInput(InputAction.CallbackContext context)
+    {
+        ClearSelection();
+    }
+    
+    private void ClearSelection()
+    {
+        for (var row = 0; row < rows; row++)
+        {
+            for (var col = 0; col < columns; col++)
+            { 
+                var tileScript = board[row, col];
+                tileScript.SetState(TileState.Default);
+            }
+        }
+        selectedTile = null;
     }
 
     private void DrawBoard()
@@ -126,6 +223,9 @@ public class GameManager : MonoBehaviour
                 board[row, col] = tileScript;
             }
         }
+
+        var cameraTransform = camera.transform;
+        cameraTransform.position = new Vector3(columns/2f-.5f, rows/2f-.5f, cameraTransform.position.z);
         
         // White pieces
         // 0,2 0,5 horse

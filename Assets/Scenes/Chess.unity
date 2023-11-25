@@ -185,7 +185,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -210,7 +210,7 @@ Transform:
   m_GameObject: {fileID: 630813921}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 2.54, y: 5.61, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -260,6 +260,37 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
+--- !u!1 &2053879463
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2053879464}
+  m_Layer: 0
+  m_Name: Piece
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2053879464
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2053879463}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.72828424, y: 0.16718984, z: -0.610751}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2086055708
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,13 +331,13 @@ MonoBehaviour:
     move: 1
     attack: 1
     sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
-  - type: 1
-    move: 1
-    attack: 3
-    sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   - type: 2
     move: 1
     attack: 1
+    sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  - type: 1
+    move: 1
+    attack: 3
     sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   - type: 3
     move: 2
@@ -333,3 +364,4 @@ SceneRoots:
   m_Roots:
   - {fileID: 630813924}
   - {fileID: 2086055710}
+  - {fileID: 2053879464}

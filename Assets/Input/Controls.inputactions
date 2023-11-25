@@ -6,9 +6,18 @@
             "id": "1c527b33-0512-46a9-ba1b-06d4f3288865",
             "actions": [
                 {
-                    "name": "Click",
+                    "name": "LClick",
                     "type": "Button",
                     "id": "8e207859-d3d5-4129-b850-6004cfda56d7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RClick",
+                    "type": "Button",
+                    "id": "d13a7201-b51e-42c2-ad89-9f61a4f0f909",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -23,7 +32,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Click",
+                    "action": "LClick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c166d0fe-f78a-4ab0-b13f-62cd93b9bfb1",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RClick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

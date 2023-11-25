@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
@@ -11,6 +9,8 @@ public class Piece : ICloneable
     public int attack;
     [NonSerialized] public bool isWhite;
     public Sprite sprite;
+    [NonSerialized] public bool attacked = false;
+    [NonSerialized] public bool movedThisTurn = false;
     public object Clone()
     {
         return new Piece
