@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Color defaultHighlightColor;
     [SerializeField] private Color controlPointColor;
     [SerializeField] private Color highlightReloadColor;
-    [SerializeField] private Piece[] pieces;
+    [SerializeField] private Piece pieceBaseStat;
     [SerializeField] private ControlPoint[] controlPoints;
     
     private Camera mainCamera;
@@ -136,7 +136,7 @@ public class GameManager : MonoBehaviour
                 {
                     GameUI.instance.GameOver(whiteTurn);
                     controls.Disable();
-                    //Debug.Log($"Game Over, won by {(whiteTurn ? "white" : "black")}");
+                    return;
                 }
                 
                 GameUI.instance.SetRemainingActionsText(2, whiteTurn);
@@ -196,10 +196,16 @@ public class GameManager : MonoBehaviour
     private void MovePiece(Tile tileToMoveTo)
     {
         var piece = selectedTile.piece;
-        
-        selectedTile.ClearPiece();
-        tileToMoveTo.ClearPiece();
+        tileToMoveTo.ClearPiece(drop: true);
         tileToMoveTo.SetPiece(piece, piece.isWhite);
+        selectedTile.ClearPiece();
+        if (tileToMoveTo.pickUp != EquipmentType.None)
+        {
+            var oldEquipment = piece.equipmentType;
+            piece.Unequip();
+            piece.Equip(tileToMoveTo.pickUp);
+            tileToMoveTo.pickUp = oldEquipment;
+        }
         piece.movedThisTurn = true;
         ClearSelection();
     }
@@ -207,19 +213,27 @@ public class GameManager : MonoBehaviour
     private void AttackPiece(Tile tileToAttack)
     {
         var piece = selectedTile.piece;
+        
         piece.attacked = true;
+        
         var attackedPiece = tileToAttack.piece;
         if (attackedPiece == null) return;
-        switch (attackedPiece.type)
+        switch (attackedPiece.equipmentType)
         {
-            case PieceType.Barrel:
-                tileToAttack.SetPiece((Piece)pieces.First(p => p.type == PieceType.Pleb).Clone(), attackedPiece.isWhite);
+            case EquipmentType.Barrel:
+                tileToAttack.piece.Unequip();
                 break;
             default:
-                tileToAttack.ClearPiece();
+                tileToAttack.ClearPiece(drop: true);
                 break;
         }
         piece.movedThisTurn = true;
+        
+        if (piece.equipmentType == EquipmentType.Gun)
+        {
+            piece.Unequip();
+        }
+        
         ClearSelection();
     }
 
@@ -278,23 +292,41 @@ public class GameManager : MonoBehaviour
             }
         }
         
-        board[0, 2].SetPiece((Piece)pieces.First(p => p.type == PieceType.Horse).Clone(), true);
-        board[0, 5].SetPiece((Piece)pieces.First(p => p.type == PieceType.Horse).Clone(), true);
-        board[0, 3].SetPiece((Piece)pieces.First(p => p.type == PieceType.Sniper).Clone(), true);
-        board[0, 4].SetPiece((Piece)pieces.First(p => p.type == PieceType.Sniper).Clone(), true);
-        board[1, 2].SetPiece((Piece)pieces.First(p => p.type == PieceType.Barrel).Clone(), true);
-        board[1, 5].SetPiece((Piece)pieces.First(p => p.type == PieceType.Barrel).Clone(), true);
-        board[1, 3].SetPiece((Piece)pieces.First(p => p.type == PieceType.Pleb).Clone(), true);
-        board[1, 4].SetPiece((Piece)pieces.First(p => p.type == PieceType.Pleb).Clone(), true);
+        // board[0, 2].SetPiece((Piece)pieces.First(p => p.type == PieceType.Pleb).Clone(), true, EquipmentType.Horse);
+        // board[0, 5].SetPiece((Piece)pieces.First(p => p.type == PieceType.Pleb).Clone(), true, EquipmentType.Horse);
+        // board[0, 3].SetPiece((Piece)pieces.First(p => p.type == PieceType.Sniper).Clone(), true);
+        // board[0, 4].SetPiece((Piece)pieces.First(p => p.type == PieceType.Sniper).Clone(), true);
+        // board[1, 2].SetPiece((Piece)pieces.First(p => p.type == PieceType.Pleb).Clone(), true, EquipmentType.Barrel);
+        // board[1, 5].SetPiece((Piece)pieces.First(p => p.type == PieceType.Pleb).Clone(), true, EquipmentType.Barrel);
+        // board[1, 3].SetPiece((Piece)pieces.First(p => p.type == PieceType.Pleb).Clone(), true);
+        // board[1, 4].SetPiece((Piece)pieces.First(p => p.type == PieceType.Pleb).Clone(), true);
+        //
+        // board[11, 2].SetPiece((Piece)pieces.First(p => p.type == PieceType.Pleb).Clone(), false, EquipmentType.Horse);
+        // board[11, 5].SetPiece((Piece)pieces.First(p => p.type == PieceType.Pleb).Clone(), false, EquipmentType.Horse);
+        // board[11, 3].SetPiece((Piece)pieces.First(p => p.type == PieceType.Sniper).Clone(), false);
+        // board[11, 4].SetPiece((Piece)pieces.First(p => p.type == PieceType.Sniper).Clone(), false);
+        // board[10, 2].SetPiece((Piece)pieces.First(p => p.type == PieceType.Pleb).Clone(), false, EquipmentType.Barrel);
+        // board[10, 5].SetPiece((Piece)pieces.First(p => p.type == PieceType.Pleb).Clone(), false, EquipmentType.Barrel);
+        // board[10, 3].SetPiece((Piece)pieces.First(p => p.type == PieceType.Pleb).Clone(), false);
+        // board[10, 4].SetPiece((Piece)pieces.First(p => p.type == PieceType.Pleb).Clone(), false);
         
-        board[11, 2].SetPiece((Piece)pieces.First(p => p.type == PieceType.Horse).Clone(), false);
-        board[11, 5].SetPiece((Piece)pieces.First(p => p.type == PieceType.Horse).Clone(), false);
-        board[11, 3].SetPiece((Piece)pieces.First(p => p.type == PieceType.Sniper).Clone(), false);
-        board[11, 4].SetPiece((Piece)pieces.First(p => p.type == PieceType.Sniper).Clone(), false);
-        board[10, 2].SetPiece((Piece)pieces.First(p => p.type == PieceType.Barrel).Clone(), false);
-        board[10, 5].SetPiece((Piece)pieces.First(p => p.type == PieceType.Barrel).Clone(), false);
-        board[10, 3].SetPiece((Piece)pieces.First(p => p.type == PieceType.Pleb).Clone(), false);
-        board[10, 4].SetPiece((Piece)pieces.First(p => p.type == PieceType.Pleb).Clone(), false);
+        board[0, 2].SetPiece((Piece)pieceBaseStat.Clone(), true, EquipmentType.Horse);
+        board[0, 5].SetPiece((Piece)pieceBaseStat.Clone(), true, EquipmentType.Horse);
+        board[0, 3].SetPiece((Piece)pieceBaseStat.Clone(), true, EquipmentType.Sniper);
+        board[0, 4].SetPiece((Piece)pieceBaseStat.Clone(), true, EquipmentType.Sniper);
+        board[1, 2].SetPiece((Piece)pieceBaseStat.Clone(), true, EquipmentType.Barrel);
+        board[1, 5].SetPiece((Piece)pieceBaseStat.Clone(), true, EquipmentType.Barrel);
+        board[1, 3].SetPiece((Piece)pieceBaseStat.Clone(), true);
+        board[1, 4].SetPiece((Piece)pieceBaseStat.Clone(), true);
+        
+        board[11, 2].SetPiece((Piece)pieceBaseStat.Clone(), false, EquipmentType.Horse);
+        board[11, 5].SetPiece((Piece)pieceBaseStat.Clone(), false, EquipmentType.Horse);
+        board[11, 3].SetPiece((Piece)pieceBaseStat.Clone(), false, EquipmentType.Sniper);
+        board[11, 4].SetPiece((Piece)pieceBaseStat.Clone(), false, EquipmentType.Sniper);
+        board[10, 2].SetPiece((Piece)pieceBaseStat.Clone(), false, EquipmentType.Barrel);
+        board[10, 5].SetPiece((Piece)pieceBaseStat.Clone(), false, EquipmentType.Barrel);
+        board[10, 3].SetPiece((Piece)pieceBaseStat.Clone(), false);
+        board[10, 4].SetPiece((Piece)pieceBaseStat.Clone(), false);
         
         GameUI.instance.SetRemainingActionsText(1, whiteTurn);
     }

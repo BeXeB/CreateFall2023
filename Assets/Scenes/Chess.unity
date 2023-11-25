@@ -905,23 +905,11 @@ MonoBehaviour:
   defaultHighlightColor: {r: 1, g: 1, b: 1, a: 0}
   controlPointColor: {r: 0.053194046, g: 1, b: 0, a: 1}
   highlightReloadColor: {r: 1, g: 0.51687396, b: 0, a: 1}
-  pieces:
-  - type: 0
+  pieceBaseStat:
     move: 1
     attack: 1
-    sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
-  - type: 2
-    move: 1
-    attack: 1
-    sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
-  - type: 1
-    move: 1
-    attack: 3
     sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  - type: 3
-    move: 2
-    attack: 2
-    sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+    equipmentType: 0
   controlPoints:
   - coordinates:
     - row: 5
