@@ -7,6 +7,16 @@ public class Tile : MonoBehaviour
     public int row { get; set; }
     public int column { get; set; }
     public TileState state { get; private set; }
+    
+    private SpriteRenderer highlight;
+    private SpriteRenderer pieceSprite;
+    
+    private void Awake()
+    {
+        highlight = gameObject.GetComponentsInChildren<SpriteRenderer>()[1];
+        pieceSprite = gameObject.GetComponentsInChildren<SpriteRenderer>()[2];
+    }
+    
     public void SetPiece(Piece piece, bool isWhite, EquipmentType? equipmentType = null)
     {
         this.piece = piece;
@@ -14,13 +24,14 @@ public class Tile : MonoBehaviour
         this.piece.isWhite = isWhite;
         if (equipmentType != null)
             piece.Equip((EquipmentType)equipmentType);
-        gameObject.GetComponentsInChildren<SpriteRenderer>()[2].sprite = piece.sprite;
+        pieceSprite.color = GameManager.instance.GetTeamColor(isWhite);
+        pieceSprite.sprite = piece.sprite;
     }
     
     private void HandleEquipmentChanged()
     {
         if (piece != null)
-            gameObject.GetComponentsInChildren<SpriteRenderer>()[2].sprite = piece.sprite;
+            pieceSprite.sprite = piece.sprite;
     }
     
     public void ClearPiece(bool drop = false)
@@ -30,13 +41,13 @@ public class Tile : MonoBehaviour
             pickUp = piece.equipmentType;
         }
         piece = null;
-        gameObject.GetComponentsInChildren<SpriteRenderer>()[2].sprite = null;
+        pieceSprite.sprite = null;
     }
     
     public void SetState(TileState state)
     {
         this.state = state;
-        gameObject.GetComponentsInChildren<SpriteRenderer>()[1].color = GameManager.instance.GetHighlightColor(state);
+        highlight.color = GameManager.instance.GetHighlightColor(state);
     }
 }
 

@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Color defaultHighlightColor;
     [SerializeField] private Color controlPointColor;
     [SerializeField] private Color highlightReloadColor;
+    [SerializeField] private Color team1Color;
+    [SerializeField] private Color team2Color;
     [SerializeField] private Piece pieceBaseStat;
     [SerializeField] private ControlPoint[] controlPoints;
     [SerializeField] private EquipmentSprite[] equipmentSprites;
@@ -43,6 +45,11 @@ public class GameManager : MonoBehaviour
     public Sprite GetEquipmentSprite(EquipmentType equipmentType)
     {
         return equipmentSprites.First(e => e.type == equipmentType).sprite;
+    }
+    
+    public Color GetTeamColor(bool isWhite)
+    {
+        return isWhite ? team1Color : team2Color;
     }
     
     public Color GetHighlightColor(TileState state)
@@ -300,21 +307,21 @@ public class GameManager : MonoBehaviour
         
         board[0, 2].SetPiece((Piece)pieceBaseStat.Clone(), true, EquipmentType.Horse);
         board[0, 5].SetPiece((Piece)pieceBaseStat.Clone(), true, EquipmentType.Horse);
-        board[0, 3].SetPiece((Piece)pieceBaseStat.Clone(), true, EquipmentType.Sniper);
-        board[0, 4].SetPiece((Piece)pieceBaseStat.Clone(), true, EquipmentType.Sniper);
+        board[1, 1].SetPiece((Piece)pieceBaseStat.Clone(), true, EquipmentType.None);
+        board[1, 6].SetPiece((Piece)pieceBaseStat.Clone(), true, EquipmentType.None);
         board[1, 2].SetPiece((Piece)pieceBaseStat.Clone(), true, EquipmentType.Barrel);
         board[1, 5].SetPiece((Piece)pieceBaseStat.Clone(), true, EquipmentType.Barrel);
-        board[1, 3].SetPiece((Piece)pieceBaseStat.Clone(), true, EquipmentType.None);
-        board[1, 4].SetPiece((Piece)pieceBaseStat.Clone(), true, EquipmentType.None);
+        board[1, 3].SetPiece((Piece)pieceBaseStat.Clone(), true, EquipmentType.Sniper);
+        board[1, 4].SetPiece((Piece)pieceBaseStat.Clone(), true, EquipmentType.Sniper);
         
         board[11, 2].SetPiece((Piece)pieceBaseStat.Clone(), false, EquipmentType.Horse);
         board[11, 5].SetPiece((Piece)pieceBaseStat.Clone(), false, EquipmentType.Horse);
-        board[11, 3].SetPiece((Piece)pieceBaseStat.Clone(), false, EquipmentType.Sniper);
-        board[11, 4].SetPiece((Piece)pieceBaseStat.Clone(), false, EquipmentType.Sniper);
+        board[10, 1].SetPiece((Piece)pieceBaseStat.Clone(), false, EquipmentType.None);
+        board[10, 6].SetPiece((Piece)pieceBaseStat.Clone(), false, EquipmentType.None);
         board[10, 2].SetPiece((Piece)pieceBaseStat.Clone(), false, EquipmentType.Barrel);
         board[10, 5].SetPiece((Piece)pieceBaseStat.Clone(), false, EquipmentType.Barrel);
-        board[10, 3].SetPiece((Piece)pieceBaseStat.Clone(), false, EquipmentType.None);
-        board[10, 4].SetPiece((Piece)pieceBaseStat.Clone(), false, EquipmentType.None);
+        board[10, 3].SetPiece((Piece)pieceBaseStat.Clone(), false, EquipmentType.Sniper);
+        board[10, 4].SetPiece((Piece)pieceBaseStat.Clone(), false, EquipmentType.Sniper);
         
         GameUI.instance.SetRemainingActionsText(1, whiteTurn);
     }
