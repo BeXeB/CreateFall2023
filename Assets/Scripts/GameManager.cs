@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -15,6 +17,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Color highlightTileColor;
     [SerializeField] private Color highlightAttackColor;
     [SerializeField] private Color defaultHighlightColor;
+    [SerializeField] private Piece[] pieces;
     
     private bool whiteTurn = true;
     private int whiteMove = 0;
@@ -62,8 +65,6 @@ public class GameManager : MonoBehaviour
     private void SelectTile(Tile tile)
     {
         if (tile.piece == null) return;
-        
-        print("Selected tile");
         
         var piece = tile.piece;
         
@@ -138,23 +139,23 @@ public class GameManager : MonoBehaviour
         // 10,2 11,5 barrel
         // 10,3 11,4 plebs
         
-        board[0, 2].piece = new () { type = PieceType.Horse, move = 2, attack = 2, isWhite = true };
-        board[0, 5].piece = new () { type = PieceType.Horse, move = 2, attack = 2, isWhite = true };
-        board[0, 3].piece = new () { type = PieceType.Sniper, move = 1, attack = 3, isWhite = true };
-        board[0, 4].piece = new () { type = PieceType.Sniper, move = 1, attack = 3, isWhite = true };
-        board[1, 2].piece = new () { type = PieceType.Barrel, move = 1, attack = 1, isWhite = true };
-        board[1, 5].piece = new () { type = PieceType.Barrel, move = 1, attack = 1, isWhite = true };
-        board[1, 3].piece = new () { type = PieceType.Pleb, move = 1, attack = 1, isWhite = true };
-        board[1, 4].piece = new () { type = PieceType.Pleb, move = 1, attack = 1, isWhite = true };
+        board[0, 2].SetPiece((Piece)pieces.First(p => p.type == PieceType.Horse).Clone(), true);
+        board[0, 5].SetPiece((Piece)pieces.First(p => p.type == PieceType.Horse).Clone(), true);
+        board[0, 3].SetPiece((Piece)pieces.First(p => p.type == PieceType.Sniper).Clone(), true);
+        board[0, 4].SetPiece((Piece)pieces.First(p => p.type == PieceType.Sniper).Clone(), true);
+        board[1, 2].SetPiece((Piece)pieces.First(p => p.type == PieceType.Barrel).Clone(), true);
+        board[1, 5].SetPiece((Piece)pieces.First(p => p.type == PieceType.Barrel).Clone(), true);
+        board[1, 3].SetPiece((Piece)pieces.First(p => p.type == PieceType.Pleb).Clone(), true);
+        board[1, 4].SetPiece((Piece)pieces.First(p => p.type == PieceType.Pleb).Clone(), true);
         
-        board[11, 2].piece = new () { type = PieceType.Horse, move = 2, attack = 2, isWhite = false };
-        board[11, 5].piece = new () { type = PieceType.Horse, move = 2, attack = 2, isWhite = false };
-        board[11, 3].piece = new () { type = PieceType.Sniper, move = 1, attack = 3, isWhite = false };
-        board[11, 4].piece = new () { type = PieceType.Sniper, move = 1, attack = 3, isWhite = false };
-        board[10, 2].piece = new () { type = PieceType.Barrel, move = 1, attack = 1, isWhite = false };
-        board[10, 5].piece = new () { type = PieceType.Barrel, move = 1, attack = 1, isWhite = false };
-        board[10, 3].piece = new () { type = PieceType.Pleb, move = 1, attack = 1, isWhite = false };
-        board[10, 4].piece = new () { type = PieceType.Pleb, move = 1, attack = 1, isWhite = false };
+        board[11, 2].SetPiece((Piece)pieces.First(p => p.type == PieceType.Horse).Clone(), false);
+        board[11, 5].SetPiece((Piece)pieces.First(p => p.type == PieceType.Horse).Clone(), false);
+        board[11, 3].SetPiece((Piece)pieces.First(p => p.type == PieceType.Sniper).Clone(), false);
+        board[11, 4].SetPiece((Piece)pieces.First(p => p.type == PieceType.Sniper).Clone(), false);
+        board[10, 2].SetPiece((Piece)pieces.First(p => p.type == PieceType.Barrel).Clone(), false);
+        board[10, 5].SetPiece((Piece)pieces.First(p => p.type == PieceType.Barrel).Clone(), false);
+        board[10, 3].SetPiece((Piece)pieces.First(p => p.type == PieceType.Pleb).Clone(), false);
+        board[10, 4].SetPiece((Piece)pieces.First(p => p.type == PieceType.Pleb).Clone(), false);
     }
     
 }

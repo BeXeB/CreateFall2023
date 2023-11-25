@@ -4,12 +4,24 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class Piece
+public class Piece : ICloneable
 {
-    public PieceType type { get; set; }
-    public int move { get; set; }
-    public int attack { get; set; }
-    public bool isWhite { get; set; }
+    public PieceType type;
+    public int move;
+    public int attack;
+    [NonSerialized] public bool isWhite;
+    public Sprite sprite;
+    public object Clone()
+    {
+        return new Piece
+        {
+            type = this.type,
+            move = this.move,
+            attack = this.attack,
+            isWhite = this.isWhite,
+            sprite = this.sprite
+        };
+    }
 }
 
 public enum PieceType
