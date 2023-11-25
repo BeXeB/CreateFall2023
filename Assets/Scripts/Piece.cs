@@ -8,8 +8,8 @@ public class Piece : ICloneable
     public int attack;
     [NonSerialized] public bool isWhite;
     [NonSerialized] public Sprite sprite;
-    [NonSerialized] public bool attacked = false;
-    [NonSerialized] public bool movedThisTurn = false;
+    [NonSerialized] public bool attacked;
+    [NonSerialized] public bool movedThisTurn;
     public EquipmentType equipmentType = EquipmentType.None;
     
     public delegate void EquipmentChanged ();
