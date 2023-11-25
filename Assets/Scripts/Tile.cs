@@ -24,7 +24,6 @@ public class Tile : MonoBehaviour
         this.piece.isWhite = isWhite;
         if (equipmentType != null)
             piece.Equip((EquipmentType)equipmentType);
-        pieceSprite.color = GameManager.instance.GetTeamColor(isWhite);
         pieceSprite.sprite = piece.sprite;
     }
     

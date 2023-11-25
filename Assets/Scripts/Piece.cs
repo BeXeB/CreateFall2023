@@ -51,7 +51,7 @@ public class Piece : ICloneable
                 throw new ArgumentOutOfRangeException(nameof(equipmentType), equipmentType, null);
         }
         this.equipmentType = equipmentType;
-        sprite = GameManager.instance.GetEquipmentSprite(equipmentType);
+        sprite = GameManager.instance.GetEquipmentSprite(equipmentType, isWhite);
         equippedChanged?.Invoke();
     }
     
@@ -77,7 +77,7 @@ public class Piece : ICloneable
                 throw new ArgumentOutOfRangeException(nameof(equipmentType), equipmentType, null);
         }
         equipmentType = EquipmentType.None;
-        sprite = GameManager.instance.GetEquipmentSprite(equipmentType);
+        sprite = GameManager.instance.GetEquipmentSprite(equipmentType, isWhite);
         equippedChanged?.Invoke();
     }
 }

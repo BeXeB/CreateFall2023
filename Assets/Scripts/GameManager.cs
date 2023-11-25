@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,8 +16,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Color defaultHighlightColor;
     [SerializeField] private Color controlPointColor;
     [SerializeField] private Color highlightReloadColor;
-    [SerializeField] private Color team1Color;
-    [SerializeField] private Color team2Color;
     [SerializeField] private Piece pieceBaseStat;
     [SerializeField] private ControlPoint[] controlPoints;
     [SerializeField] private EquipmentSprite[] equipmentSprites;
@@ -42,14 +41,10 @@ public class GameManager : MonoBehaviour
         DrawBoard();
     }
     
-    public Sprite GetEquipmentSprite(EquipmentType equipmentType)
+    public Sprite GetEquipmentSprite(EquipmentType equipmentType, bool isWhite)
     {
-        return equipmentSprites.First(e => e.type == equipmentType).sprite;
-    }
-    
-    public Color GetTeamColor(bool isWhite)
-    {
-        return isWhite ? team1Color : team2Color;
+        var sprite = equipmentSprites.First(e => e.type == equipmentType);
+        return isWhite ? sprite.spriteTeam1 : sprite.spriteTeam2;
     }
     
     public Color GetHighlightColor(TileState state)
@@ -332,5 +327,6 @@ public class GameManager : MonoBehaviour
 public struct EquipmentSprite
 {
     public EquipmentType type;
-    public Sprite sprite;
+    [FormerlySerializedAs("spriteRed")] public Sprite spriteTeam1;
+    [FormerlySerializedAs("spriteBlue")] public Sprite spriteTeam2;
 }
