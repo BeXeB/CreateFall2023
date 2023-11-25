@@ -134,7 +134,9 @@ public class GameManager : MonoBehaviour
                 
                 if (controlled)
                 {
-                    Debug.Log($"Game Over, won by {(whiteTurn ? "white" : "black")}");
+                    GameUI.instance.GameOver(whiteTurn);
+                    controls.Disable();
+                    //Debug.Log($"Game Over, won by {(whiteTurn ? "white" : "black")}");
                 }
                 
                 GameUI.instance.SetRemainingActionsText(2, whiteTurn);

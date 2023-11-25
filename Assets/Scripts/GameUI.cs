@@ -5,6 +5,7 @@ public class GameUI : MonoBehaviour
 {
     public static GameUI instance { get; private set; }
     [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private TMP_Text gameOverText;
     [SerializeField] private TMP_Text actionText;
     
     private void Awake()
@@ -19,5 +20,11 @@ public class GameUI : MonoBehaviour
     public void SetRemainingActionsText(int remainingActions, bool isWhiteTurn)
     {
         actionText.text = $"Remaining Actions: {remainingActions}\nTurn: {(isWhiteTurn ? "White" : "Black")}";
+    }
+
+    public void GameOver(bool isWhiteTurn)
+    {
+        gameOverText.text = $"Game Over, Won By {(isWhiteTurn ? "White!" : "Black!")}";
+        gameOverPanel.SetActive(true);
     }
 }
