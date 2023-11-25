@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
@@ -24,6 +23,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float player2Time = 3*60;
     [SerializeField] private float player2TimeIncrement = 2f;
     
+    private float player1TimeRemaining;
+    private float player2TimeRemaining;
+    
     private Camera mainCamera;
     private Controls controls;
     
@@ -42,6 +44,8 @@ public class GameManager : MonoBehaviour
         }
         mainCamera = Camera.main;
         controls = new Controls();
+        player1TimeRemaining = player1Time;
+        player2TimeRemaining = player2Time;
         DrawBoard();
     }
     
@@ -82,6 +86,12 @@ public class GameManager : MonoBehaviour
         controls.Disable();
     }
 
+    private void Start()
+    {
+        GameUI.instance.SetRemainingTimeText(player1TimeRemaining, true);
+        GameUI.instance.SetRemainingTimeText(player2TimeRemaining, false);
+    }
+
     private void CheckIfMouseIsOverTile(InputAction.CallbackContext context)
     {
         var ray = mainCamera.ScreenPointToRay(Input.mousePosition);
@@ -118,6 +128,27 @@ public class GameManager : MonoBehaviour
                 throw new ArgumentOutOfRangeException();
         }
     }
+    
+    private void Update()
+    {
+        if (whiteMove == 0 && blackMove == 0) return;
+        if (whiteTurn)
+        {
+            player1TimeRemaining -= Time.deltaTime;
+            GameUI.instance.SetRemainingTimeText(player1TimeRemaining, whiteTurn);
+            if (!(player1TimeRemaining <= 0)) return;
+            GameUI.instance.GameOver(false);
+            controls.Disable();
+        }
+        else
+        {
+            player2TimeRemaining -= Time.deltaTime;
+            GameUI.instance.SetRemainingTimeText(player2TimeRemaining, whiteTurn);
+            if (!(player2TimeRemaining <= 0)) return;
+            GameUI.instance.GameOver(true);
+            controls.Disable();
+        }
+    }
 
     private void MoveMade()
     {
@@ -139,11 +170,17 @@ public class GameManager : MonoBehaviour
                 }
 
                 whiteTurn = !whiteTurn;
-                
+
                 if (whiteTurn)
-                    player1Time += player1TimeIncrement;
+                {
+                    player1TimeRemaining += player1TimeIncrement;
+                    GameUI.instance.SetRemainingTimeText(player1TimeRemaining, whiteTurn);
+                }
                 else
-                    player2Time += player2TimeIncrement;
+                {
+                    player2TimeRemaining += player2TimeIncrement;
+                    GameUI.instance.SetRemainingTimeText(player2TimeRemaining, whiteTurn);
+                }
 
                 var controlled = true;
                 foreach (var point in controlPoints)

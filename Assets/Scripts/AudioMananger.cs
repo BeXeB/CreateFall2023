@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AudioMananger : MonoBehaviour
@@ -55,16 +53,14 @@ public class AudioMananger : MonoBehaviour
     {
         foreach (var clip in musicClipData)
         {
-            if (clip.clip.name == clipName)
-            {   
-                musicSource.Stop();
-                musicSource.clip = clip.clip;
-                musicSource.volume = clip.volume;
-                musicSource.pitch = clip.pitch;
-                musicSource.loop = clip.loop;
-                musicSource.Play();
-                return;
-            }
+            if (clip.clip.name != clipName) continue;
+            musicSource.Stop();
+            musicSource.clip = clip.clip;
+            musicSource.volume = clip.volume;
+            musicSource.pitch = clip.pitch;
+            musicSource.loop = clip.loop;
+            musicSource.Play();
+            return;
         }
         Debug.LogError($"Music clip {clipName} not found");
     }
