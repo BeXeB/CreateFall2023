@@ -13,9 +13,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Color highlightTileColor;
     [SerializeField] private Color highlightAttackColor;
     [SerializeField] private Color defaultHighlightColor;
+    [SerializeField] private Color controlPointColor;
     [SerializeField] private Piece[] pieces;
+    [SerializeField] private ControlPoint[] controlPoints;
     
-    private Camera camera;
+    private Camera mainCamera;
     private Controls controls;
     
     private bool whiteTurn = true;
@@ -31,7 +33,7 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
         }
-        camera = Camera.main;
+        mainCamera = Camera.main;
         controls = new Controls();
         DrawBoard();
     }
@@ -63,7 +65,7 @@ public class GameManager : MonoBehaviour
 
     private void CheckIfMouseIsOverTile(InputAction.CallbackContext context)
     {
-        var ray = camera.ScreenPointToRay(Input.mousePosition);
+        var ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         
         if (!Physics.Raycast(ray, out var hit, Mathf.Infinity)) return;
         
@@ -110,6 +112,24 @@ public class GameManager : MonoBehaviour
                 }
 
                 whiteTurn = !whiteTurn;
+                
+                //foreach controllpoint check if it is controlled by white or black depending on the turn
+                //if all of them are controlled by white or black, end the game
+
+                var controlled = true;
+                foreach (var point in controlPoints)
+                {
+                    if (!(whiteTurn ? point.IsControlledByWhite() : point.IsControlledByBlack()))
+                    {
+                        controlled = false;
+                    }
+                }
+                
+                if (controlled)
+                {
+                    Debug.Log($"Game Over, won by {(whiteTurn ? "white" : "black")}");
+                }
+                
                 break;
         }
     }
@@ -224,20 +244,17 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        var cameraTransform = camera.transform;
+        var cameraTransform = mainCamera.transform;
         cameraTransform.position = new Vector3(columns/2f-.5f, rows/2f-.5f, cameraTransform.position.z);
         
-        // White pieces
-        // 0,2 0,5 horse
-        // 0,3 0,4 sniper
-        // 1,2 1,5 barrel
-        // 1,3 1,4 plebs
-        
-        // Black pieces
-        // 11,2 10,5 horse
-        // 11,3 10,4 sniper
-        // 10,2 11,5 barrel
-        // 10,3 11,4 plebs
+       foreach (var controlPoint in controlPoints)
+        {
+            foreach (var coordinate in controlPoint.coordinates)
+            {
+                board[coordinate.row, coordinate.column].GetComponent<SpriteRenderer>().color = controlPointColor;
+                controlPoint.tiles.Add(board[coordinate.row, coordinate.column]);
+            }
+        }
         
         board[0, 2].SetPiece((Piece)pieces.First(p => p.type == PieceType.Horse).Clone(), true);
         board[0, 5].SetPiece((Piece)pieces.First(p => p.type == PieceType.Horse).Clone(), true);

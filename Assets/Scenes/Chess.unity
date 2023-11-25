@@ -326,6 +326,7 @@ MonoBehaviour:
   highlightTileColor: {r: 0.3962264, g: 0.3962264, b: 0.3962264, a: 1}
   highlightAttackColor: {r: 0.7264151, g: 0, b: 0, a: 1}
   defaultHighlightColor: {r: 1, g: 1, b: 1, a: 0}
+  controlPointColor: {r: 0.053194046, g: 1, b: 0, a: 1}
   pieces:
   - type: 0
     move: 1
@@ -343,6 +344,25 @@ MonoBehaviour:
     move: 2
     attack: 2
     sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  controlPoints:
+  - coordinates:
+    - row: 5
+      column: 1
+    - row: 5
+      column: 2
+    - row: 6
+      column: 1
+    - row: 6
+      column: 2
+  - coordinates:
+    - row: 5
+      column: 6
+    - row: 5
+      column: 5
+    - row: 6
+      column: 6
+    - row: 6
+      column: 5
 --- !u!4 &2086055710
 Transform:
   m_ObjectHideFlags: 0
