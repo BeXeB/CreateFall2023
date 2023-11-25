@@ -7,10 +7,13 @@ public class Piece : ICloneable
     public int move;
     public int attack;
     [NonSerialized] public bool isWhite;
-    public Sprite sprite;
+    [NonSerialized] public Sprite sprite;
     [NonSerialized] public bool attacked = false;
     [NonSerialized] public bool movedThisTurn = false;
     public EquipmentType equipmentType = EquipmentType.None;
+    
+    public delegate void EquipmentChanged ();
+    public event EquipmentChanged equippedChanged;
 
     public object Clone()
     {
@@ -48,6 +51,8 @@ public class Piece : ICloneable
                 throw new ArgumentOutOfRangeException(nameof(equipmentType), equipmentType, null);
         }
         this.equipmentType = equipmentType;
+        sprite = GameManager.instance.GetEquipmentSprite(equipmentType);
+        equippedChanged?.Invoke();
     }
     
     public void Unequip()
@@ -72,6 +77,8 @@ public class Piece : ICloneable
                 throw new ArgumentOutOfRangeException(nameof(equipmentType), equipmentType, null);
         }
         equipmentType = EquipmentType.None;
+        sprite = GameManager.instance.GetEquipmentSprite(equipmentType);
+        equippedChanged?.Invoke();
     }
 }
 

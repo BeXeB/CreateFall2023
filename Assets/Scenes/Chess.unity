@@ -877,7 +877,6 @@ MonoBehaviour:
   pieceBaseStat:
     move: 1
     attack: 1
-    sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
     equipmentType: 0
   controlPoints:
   - coordinates:
@@ -898,6 +897,17 @@ MonoBehaviour:
       column: 6
     - row: 6
       column: 5
+  equipmentSprites:
+  - type: 0
+    sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  - type: 1
+    sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  - type: 2
+    sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  - type: 3
+    sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  - type: 4
+    sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!4 &2086055710
 Transform:
   m_ObjectHideFlags: 0

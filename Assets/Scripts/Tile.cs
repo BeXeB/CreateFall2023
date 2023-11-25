@@ -10,10 +10,17 @@ public class Tile : MonoBehaviour
     public void SetPiece(Piece piece, bool isWhite, EquipmentType? equipmentType = null)
     {
         this.piece = piece;
-        piece.isWhite = isWhite;
+        this.piece.equippedChanged += HandleEquipmentChanged;
+        this.piece.isWhite = isWhite;
         if (equipmentType != null)
             piece.Equip((EquipmentType)equipmentType);
         gameObject.GetComponentsInChildren<SpriteRenderer>()[2].sprite = piece.sprite;
+    }
+    
+    private void HandleEquipmentChanged()
+    {
+        if (piece != null)
+            gameObject.GetComponentsInChildren<SpriteRenderer>()[2].sprite = piece.sprite;
     }
     
     public void ClearPiece(bool drop = false)
