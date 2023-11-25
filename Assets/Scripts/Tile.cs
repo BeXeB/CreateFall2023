@@ -30,5 +30,6 @@ public enum TileState
 {
     Default,
     Highlighted,
-    Attack
+    Attack,
+    Reload
 }

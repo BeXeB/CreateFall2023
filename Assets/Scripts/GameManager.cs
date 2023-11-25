@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Color highlightAttackColor;
     [SerializeField] private Color defaultHighlightColor;
     [SerializeField] private Color controlPointColor;
+    [SerializeField] private Color highlightReloadColor;
     [SerializeField] private Piece[] pieces;
     [SerializeField] private ControlPoint[] controlPoints;
     
@@ -45,6 +46,7 @@ public class GameManager : MonoBehaviour
             TileState.Default => defaultHighlightColor,
             TileState.Highlighted => highlightTileColor,
             TileState.Attack => highlightAttackColor,
+            TileState.Reload => highlightReloadColor,
             _ => throw new ArgumentOutOfRangeException(nameof(state), state, null)
         };
     }
@@ -91,6 +93,10 @@ public class GameManager : MonoBehaviour
                 AttackPiece(tile);
                 MoveMade();
                 break;
+            case TileState.Reload:
+                ReloadPiece(tile);
+                MoveMade();
+                break;
             default: 
                 throw new ArgumentOutOfRangeException();
         }
@@ -100,9 +106,13 @@ public class GameManager : MonoBehaviour
     {
         if (whiteTurn) whiteMove++;
         else blackMove++;
-
+        
         switch (whiteTurn)
         {
+            case true when whiteMove % 2 == 0:
+            case false when blackMove % 2 == 1:
+                GameUI.instance.SetRemainingActionsText(1, whiteTurn);
+                break;
             case true when whiteMove % 2 == 1:
             case false when blackMove % 2 == 0:
                 foreach (var tileScript in board)
@@ -112,9 +122,6 @@ public class GameManager : MonoBehaviour
                 }
 
                 whiteTurn = !whiteTurn;
-                
-                //foreach controllpoint check if it is controlled by white or black depending on the turn
-                //if all of them are controlled by white or black, end the game
 
                 var controlled = true;
                 foreach (var point in controlPoints)
@@ -129,6 +136,8 @@ public class GameManager : MonoBehaviour
                 {
                     Debug.Log($"Game Over, won by {(whiteTurn ? "white" : "black")}");
                 }
+                
+                GameUI.instance.SetRemainingActionsText(2, whiteTurn);
                 
                 break;
         }
@@ -148,7 +157,10 @@ public class GameManager : MonoBehaviour
         
         selectedTile = tile;
         HighlightMoves(piece, tile);
-        // if (piece.attacked) return; show reload action
+        if (piece.attacked)
+        {
+            tile.SetState(TileState.Reload);
+        }
     }
 
     private void HighlightMoves(Piece piece, Tile tile)
@@ -209,6 +221,14 @@ public class GameManager : MonoBehaviour
         ClearSelection();
     }
 
+    private void ReloadPiece(Tile tile)
+    {
+        var piece = tile.piece;
+        piece.attacked = false;
+        piece.movedThisTurn = true;
+        ClearSelection();
+    }
+    
     private void HandleClearInput(InputAction.CallbackContext context)
     {
         ClearSelection();
@@ -273,6 +293,7 @@ public class GameManager : MonoBehaviour
         board[10, 5].SetPiece((Piece)pieces.First(p => p.type == PieceType.Barrel).Clone(), false);
         board[10, 3].SetPiece((Piece)pieces.First(p => p.type == PieceType.Pleb).Clone(), false);
         board[10, 4].SetPiece((Piece)pieces.First(p => p.type == PieceType.Pleb).Clone(), false);
+        
+        GameUI.instance.SetRemainingActionsText(1, whiteTurn);
     }
-    
 }
