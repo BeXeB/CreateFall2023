@@ -65,6 +65,7 @@ public class GameUI : MonoBehaviour
     
     private void HandleQuitButtonClicked()
     {
+        AudioMananger.instance.PlayMusicClip("Menu");
         SceneManager.LoadScene(0);
     }
 }

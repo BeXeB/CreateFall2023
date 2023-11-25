@@ -44,6 +44,7 @@ public class MainMenu : MonoBehaviour
 
     private void HandlePlayButtonClicked()
     {
+        AudioMananger.instance.PlayMusicClip("Game");
         SceneManager.LoadScene("Chess");
     }
     

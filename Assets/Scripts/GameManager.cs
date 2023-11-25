@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
     private int whiteMove;
     private int blackMove;
     private Tile selectedTile;
+    private bool gameOver;
     
     private Tile[,] board;
     
@@ -132,21 +133,22 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         if (whiteMove == 0 && blackMove == 0) return;
+        if (gameOver) return;
         if (whiteTurn)
         {
             player1TimeRemaining -= Time.deltaTime;
             GameUI.instance.SetRemainingTimeText(player1TimeRemaining, whiteTurn);
             if (!(player1TimeRemaining <= 0)) return;
-            GameUI.instance.GameOver(false);
-            controls.Disable();
+            player1TimeRemaining = 0;
+            GameOver(false);
         }
         else
         {
             player2TimeRemaining -= Time.deltaTime;
             GameUI.instance.SetRemainingTimeText(player2TimeRemaining, whiteTurn);
             if (!(player2TimeRemaining <= 0)) return;
-            GameUI.instance.GameOver(true);
-            controls.Disable();
+            player2TimeRemaining = 0;
+            GameOver(true);
         }
     }
 
@@ -193,8 +195,7 @@ public class GameManager : MonoBehaviour
                 
                 if (controlled)
                 {
-                    GameUI.instance.GameOver(whiteTurn);
-                    controls.Disable();
+                    GameOver(whiteTurn);
                     return;
                 }
                 
@@ -202,6 +203,13 @@ public class GameManager : MonoBehaviour
                 
                 break;
         }
+    }
+
+    private void GameOver(bool whiteTurn)
+    {
+        GameUI.instance.GameOver(whiteTurn);
+        controls.Disable();
+        gameOver = true;
     }
 
     private void SelectTile(Tile tile)
