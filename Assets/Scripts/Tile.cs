@@ -10,15 +10,18 @@ public class Tile : MonoBehaviour
     
     private SpriteRenderer highlight;
     private SpriteRenderer pieceSprite;
+    private SpriteRenderer pickUpSprite;
     
     private void Awake()
     {
         highlight = gameObject.GetComponentsInChildren<SpriteRenderer>()[1];
         pieceSprite = gameObject.GetComponentsInChildren<SpriteRenderer>()[2];
+        pickUpSprite = gameObject.GetComponentsInChildren<SpriteRenderer>()[3];
     }
     
     public void SetPiece(Piece piece, bool isWhite, EquipmentType? equipmentType = null)
     {
+        pickUpSprite.color = new Color(255, 255, 255, 0);
         this.piece = piece;
         this.piece.equippedChanged += HandleEquipmentChanged;
         this.piece.isWhite = isWhite;
@@ -38,9 +41,11 @@ public class Tile : MonoBehaviour
         if (drop && piece != null && piece.equipmentType != EquipmentType.None)
         {
             pickUp = piece.equipmentType;
+            pickUpSprite.sprite = GameManager.instance.GetPickUpSprite(piece.equipmentType);
         }
         piece = null;
         pieceSprite.sprite = null;
+        pickUpSprite.color = new Color(255, 255, 255, 255);
     }
     
     public void SetState(TileState state)

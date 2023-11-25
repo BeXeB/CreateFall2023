@@ -19,6 +19,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Piece pieceBaseStat;
     [SerializeField] private ControlPoint[] controlPoints;
     [SerializeField] private EquipmentSprite[] equipmentSprites;
+    [SerializeField] private float player1Time = 3*60;
+    [SerializeField] private float player1TimeIncrement = 2f;
+    [SerializeField] private float player2Time = 3*60;
+    [SerializeField] private float player2TimeIncrement = 2f;
     
     private Camera mainCamera;
     private Controls controls;
@@ -45,6 +49,11 @@ public class GameManager : MonoBehaviour
     {
         var sprite = equipmentSprites.First(e => e.type == equipmentType);
         return isWhite ? sprite.spriteTeam1 : sprite.spriteTeam2;
+    }
+    
+    public Sprite GetPickUpSprite(EquipmentType equipmentType)
+    {
+        return equipmentSprites.First(e => e.type == equipmentType).spritePickUp;
     }
     
     public Color GetHighlightColor(TileState state)
@@ -130,6 +139,11 @@ public class GameManager : MonoBehaviour
                 }
 
                 whiteTurn = !whiteTurn;
+                
+                if (whiteTurn)
+                    player1Time += player1TimeIncrement;
+                else
+                    player2Time += player2TimeIncrement;
 
                 var controlled = true;
                 foreach (var point in controlPoints)
@@ -327,6 +341,7 @@ public class GameManager : MonoBehaviour
 public struct EquipmentSprite
 {
     public EquipmentType type;
-    [FormerlySerializedAs("spriteRed")] public Sprite spriteTeam1;
-    [FormerlySerializedAs("spriteBlue")] public Sprite spriteTeam2;
+    public Sprite spriteTeam1;
+    public Sprite spriteTeam2;
+    public Sprite spritePickUp;
 }
