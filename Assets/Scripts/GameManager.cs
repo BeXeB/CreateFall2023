@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
     
     public Sprite GetPickUpSprite(EquipmentType equipmentType)
     {
-        return equipmentSprites.First(e => e.type == equipmentType).spritePickUp;
+        return equipmentType == EquipmentType.None ? null : equipmentSprites.First(e => e.type == equipmentType).spritePickUp;
     }
     
     public Color GetHighlightColor(TileState state)
@@ -276,6 +276,7 @@ public class GameManager : MonoBehaviour
             piece.Unequip();
             piece.Equip(tileToMoveTo.pickUp);
             tileToMoveTo.pickUp = oldEquipment;
+            tileToMoveTo.UpdatePickUpSprite();
             take = true;
         }
         piece.movedThisTurn = true;
