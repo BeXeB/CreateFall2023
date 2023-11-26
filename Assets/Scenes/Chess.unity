@@ -2037,7 +2037,7 @@ MonoBehaviour:
   - type: 1
     spriteTeam1: {fileID: 21300000, guid: 0847af764ffe02d408b7487850c550b1, type: 3}
     spriteTeam2: {fileID: 21300000, guid: e05cbdd3de729074cace3679d1fef186, type: 3}
-    spritePickUp: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+    spritePickUp: {fileID: 21300000, guid: 6ef11bf91c6a1da4a9b0abb8bebeeb0a, type: 3}
   - type: 2
     spriteTeam1: {fileID: 21300000, guid: b8f7c466dfc54a7429b093a7bffeac4b, type: 3}
     spriteTeam2: {fileID: 21300000, guid: cd1340a799e65c040a8930dc758dce2b, type: 3}
