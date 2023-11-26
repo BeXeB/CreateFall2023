@@ -44,23 +44,27 @@ public class MainMenu : MonoBehaviour
 
     private void HandlePlayButtonClicked()
     {
+        AudioMananger.instance.PlayAudioClip("Shoot");
         AudioMananger.instance.PlayMusicClip("Game");
         SceneManager.LoadScene("Chess");
     }
     
     private void HandleAudioSettingsButtonClicked()
     {
+        AudioMananger.instance.PlayAudioClip("Shoot");
         audioSettingsPanel.SetActive(true);
         mainMenuPanel.SetActive(false);
     }
     
     private void HandleQuitButtonClicked()
     {
+        AudioMananger.instance.PlayAudioClip("Shoot");
         Application.Quit();
     }
     
     private void HandleAudioSettingsBackButtonClicked()
     {
+        AudioMananger.instance.PlayAudioClip("Shoot");
         audioSettingsPanel.SetActive(false);
         mainMenuPanel.SetActive(true);
     }

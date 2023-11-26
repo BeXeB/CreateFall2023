@@ -60,11 +60,13 @@ public class GameUI : MonoBehaviour
     
     private void HandleRestartButtonClicked()
     {
+        AudioMananger.instance.PlayAudioClip("Shoot");
         SceneManager.LoadScene(1);
     }
     
     private void HandleQuitButtonClicked()
     {
+        AudioMananger.instance.PlayAudioClip("Shoot");
         AudioMananger.instance.PlayMusicClip("Menu");
         SceneManager.LoadScene(0);
     }

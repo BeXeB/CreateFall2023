@@ -265,6 +265,8 @@ public class GameManager : MonoBehaviour
     private void MovePiece(Tile tileToMoveTo)
     {
         var piece = selectedTile.piece;
+        var take = tileToMoveTo.piece != null;
+
         tileToMoveTo.ClearPiece(drop: true);
         tileToMoveTo.SetPiece(piece, piece.isWhite);
         selectedTile.ClearPiece();
@@ -274,13 +276,20 @@ public class GameManager : MonoBehaviour
             piece.Unequip();
             piece.Equip(tileToMoveTo.pickUp);
             tileToMoveTo.pickUp = oldEquipment;
+            take = true;
         }
         piece.movedThisTurn = true;
+        if (take)
+        {
+            AudioMananger.instance.PlayAudioClip("Take");
+        }
+        else AudioMananger.instance.PlayAudioClip("Move");
         ClearSelection();
     }
     
     private void AttackPiece(Tile tileToAttack)
     {
+        AudioMananger.instance.PlayAudioClip("Shoot");
         var piece = selectedTile.piece;
         
         piece.attacked = true;

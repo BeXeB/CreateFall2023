@@ -2407,19 +2407,19 @@ MonoBehaviour:
   audioSource: {fileID: 215475047}
   musicSource: {fileID: 383615536}
   audioClipData:
-  - name: 
-    clip: {fileID: 0}
+  - name: Take
+    clip: {fileID: 8300000, guid: a017b90e280ed7e4aba32bb72209ca05, type: 3}
+    volume: 0.8
+    pitch: 0.5
+    loop: 0
+  - name: Move
+    clip: {fileID: 8300000, guid: e37126e28d6232343b43f226f2a2a402, type: 3}
     volume: 1
     pitch: 0.5
     loop: 0
-  - name: 
-    clip: {fileID: 0}
-    volume: 1
-    pitch: 0.5
-    loop: 0
-  - name: 
-    clip: {fileID: 0}
-    volume: 1
+  - name: Shoot
+    clip: {fileID: 8300000, guid: 575dbe17b66743d469efe3e1b653edb3, type: 3}
+    volume: 0.5
     pitch: 0.5
     loop: 0
   - name: 
