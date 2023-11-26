@@ -36,6 +36,11 @@ public class Tile : MonoBehaviour
             pieceSprite.sprite = piece.sprite;
     }
     
+    public void UpdatePickUpSprite()
+    {
+        pickUpSprite.sprite = GameManager.instance.GetPickUpSprite(pickUp);
+    }
+    
     public void ClearPiece(bool drop = false)
     {
         if (drop && piece != null && piece.equipmentType != EquipmentType.None)
