@@ -1920,7 +1920,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Epic Game
+  m_text: Chessperados
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 11a42b21c72c0d94492949d92aac11e8, type: 2}
   m_sharedMaterial: {fileID: -7035269918105114736, guid: 11a42b21c72c0d94492949d92aac11e8, type: 2}
@@ -2424,6 +2424,11 @@ MonoBehaviour:
     loop: 0
   - name: Reload
     clip: {fileID: 8300000, guid: 7c8fa1adea689ed4f95d9b585e472f3c, type: 3}
+    volume: 1
+    pitch: 0.5
+    loop: 0
+  - name: GameOver
+    clip: {fileID: 8300000, guid: 54deeec6380cd57408eb816e52eae406, type: 3}
     volume: 1
     pitch: 0.5
     loop: 0

@@ -210,6 +210,7 @@ public class GameManager : MonoBehaviour
     private void GameOver(bool whiteTurn)
     {
         GameUI.instance.GameOver(whiteTurn);
+        AudioMananger.instance.PlayAudioClip("GameOver");
         controls.Disable();
         gameOver = true;
     }
