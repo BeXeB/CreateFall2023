@@ -2418,11 +2418,11 @@ MonoBehaviour:
     pitch: 0.5
     loop: 0
   - name: Shoot
-    clip: {fileID: 8300000, guid: 575dbe17b66743d469efe3e1b653edb3, type: 3}
+    clip: {fileID: 8300000, guid: d3702c068b4c89b42b9b7dad43109594, type: 3}
     volume: 0.5
     pitch: 0.5
     loop: 0
-  - name: 
+  - name: Reload
     clip: {fileID: 0}
     volume: 1
     pitch: 0.5
