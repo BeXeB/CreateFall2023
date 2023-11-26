@@ -317,6 +317,7 @@ public class GameManager : MonoBehaviour
 
     private void ReloadPiece(Tile tile)
     {
+        AudioMananger.instance.PlayAudioClip("Reload");
         var piece = tile.piece;
         piece.attacked = false;
         piece.movedThisTurn = true;
